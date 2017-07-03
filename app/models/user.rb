@@ -1,13 +1,18 @@
 class User < ApplicationRecord
   attr_accessor :remember_token
   before_save { email.downcase! }
+  #[name] Confirm existence,Maximum 50 characters
   validates:name,  presence:true, length: { maximum: 50 }
+  
+  #Assign normalized expression to constant
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  #[email] Confirm existence,Maximum 255 characters, Confirm format, 
+  
   validates:email, presence:true, length: { maximum: 255 },
              format:{ with: VALID_EMAIL_REGEX },
              uniqueness:{ case_sensitive: false }
   has_secure_password
-  validates:password, presence: true, length: {minimum: 6 }
+  validates:password, presence: true, length: {minimum: 6 }, allow_nil: true
   
   #Returns the hash value of the passed in string
   def User.digest(string)
